@@ -1,0 +1,2 @@
+ruff format --config ./pyproject.toml .
+ruff check --config ./pyproject.toml --fix . 
