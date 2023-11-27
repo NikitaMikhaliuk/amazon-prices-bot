@@ -8,7 +8,11 @@ class Settings(BaseSettings):
     api_key: str = Field(default=...)
     py_env: str = Field(default="PRODUCTION")
 
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=False,
+    )
 
 
 config = Settings()
