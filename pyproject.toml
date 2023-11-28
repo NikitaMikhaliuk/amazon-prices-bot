@@ -6,7 +6,7 @@ authors = ["Nikita Mikhaliuk <nikkita1992@mail.ru>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11.6"
+python = "3.11.6"
 aiohttp = "^3.9.1"
 aiogram = "^3.2.0"
 peewee = "^3.17.0"
