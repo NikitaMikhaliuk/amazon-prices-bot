@@ -7,6 +7,7 @@ class Settings(BaseSettings):
     api_host: str = Field(default=...)
     api_key: str = Field(default=...)
     py_env: str = Field(default="PRODUCTION")
+    database: str = Field(default="database.db")
 
     model_config = SettingsConfigDict(
         env_file=".env",
