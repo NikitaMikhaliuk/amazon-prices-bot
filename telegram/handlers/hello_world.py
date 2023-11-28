@@ -6,7 +6,7 @@ from aiogram.types import Message
 router = Router()
 
 
-@router.message(Command(commands=["hello_world"]))
+@router.message(Command("hello_world"))
 async def hello_world(message: Message):
     await message.reply("Hello, world!")
 
