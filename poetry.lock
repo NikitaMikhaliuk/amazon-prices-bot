@@ -743,6 +743,17 @@ testing = ["build[virtualenv]", "filelock (>=3.4.0)", "flake8-2020", "ini2toml[l
 testing-integration = ["build[virtualenv] (>=1.0.3)", "filelock (>=3.4.0)", "jaraco.envs (>=2.2)", "jaraco.path (>=3.2.0)", "packaging (>=23.1)", "pytest", "pytest-enabler", "pytest-xdist", "tomli", "virtualenv (>=13.0.0)", "wheel"]
 
 [[package]]
+name = "types-peewee"
+version = "3.17.0.0"
+description = "Typing stubs for peewee"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "types-peewee-3.17.0.0.tar.gz", hash = "sha256:689e00884d90e24b108a6905d56ced070cbb758dc1ac5b2d40a6f5af464028df"},
+    {file = "types_peewee-3.17.0.0-py3-none-any.whl", hash = "sha256:fada1fcbda3498ff5030453f079a09c0bfe075e92f25a14f1e51036f0edb7772"},
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.8.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -879,4 +890,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.6"
-content-hash = "70a1557d213aaa08ecea2c1f86ab6e9440adfebdb04b425e55d1e6304faa8c8f"
+content-hash = "0c627435d807a8233b7125c041f5ce0f010535a2cc522c98e6ffab53ea1bef63"

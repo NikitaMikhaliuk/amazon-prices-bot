@@ -17,6 +17,7 @@ pydantic = "^2.5.2"
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.6"
 pre-commit = "^3.5.0"
+types-peewee = "^3.17.0.0"
 
 [tool.ruff]
 fix = true
