@@ -3,6 +3,7 @@ import logging
 import os
 
 import database as db
+from api import api
 from settings import config
 from telegram.bot import start_bot
 
@@ -21,8 +22,13 @@ def main():
     asyncio.run(start_bot())
 
 
+async def exit():
+    print("Exit")
+    await api.destroy()
+
+
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
-        print("Exit")
+        asyncio.run(exit())
