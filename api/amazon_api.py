@@ -10,12 +10,17 @@ from .base import ApiBase, ProductData
 class AmazonApi(ApiBase):
     __host: str
     __api_key: str
-    __session: aiohttp.ClientSession
+    __session: Optional[aiohttp.ClientSession]
 
     def __init__(self, host: str, api_key: str) -> None:
         self.__host = host
         self.__api_key = api_key
-        self.__session = aiohttp.ClientSession()
+        self.__session = None
+
+    async def __getSession(self):
+        if not self.__session:
+            self.__session = aiohttp.ClientSession()
+        return self.__session
 
     async def get_prices(
         self,
@@ -40,10 +45,12 @@ class AmazonApi(ApiBase):
         if max_price is not None:
             params["max_price"] = max_price
 
-        async with self.__session.get(url, params=params, headers=headers) as resp:
+        session = await self.__getSession()
+        async with session.get(url, params=params, headers=headers) as resp:
             resp_json = await resp.json()
             result: list[ProductData] = resp_json["data"]["products"]
             return result
 
     async def destroy(self):
-        await self.__session.close()
+        if self.__session:
+            await self.__session.close()
