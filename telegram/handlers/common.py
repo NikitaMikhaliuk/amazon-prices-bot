@@ -20,10 +20,10 @@ async def process_command_args(
     next_state: State,
     args_len: int,
 ):
-    query_params: dict[str, Any] = {"command": command.text[1:]}
+    query_params: dict[str, Any] = {"command": command.command}
+    await state.set_data(query_params)
     if command.args is None:
         await message.answer("Введите товар для поиска")
-        await state.set_data(query_params)
         await state.set_state(next_state)
         return False
     else:
@@ -35,7 +35,10 @@ async def process_command_args(
 
 
 async def process_low_high_command(
-    message: Message, command: CommandObject, state: FSMContext, next_state: State
+    message: Message,
+    command: CommandObject,
+    state: FSMContext,
+    next_state: State,
 ):
     process_args = False
     try:
