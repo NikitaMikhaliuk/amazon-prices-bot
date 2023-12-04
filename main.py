@@ -13,7 +13,7 @@ from telegram.bot import start_bot
 def main():
     install()
     logging.basicConfig(
-        level=logging.INFO,
+        level=config.log_level,
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
     )
 
