@@ -135,16 +135,22 @@ async def process_query(message: Message, state: FSMContext):
         min_price=query_params.get("min_price"),
         max_price=query_params.get("max_price"),
     )
-    limit = query_params["limit"]
-    results = results[:limit]
-    await message.answer("Результаты по вашему запросу:")
+    if results:
+        limit = query_params["limit"]
+        results = results[:limit]
+        await message.answer("Результаты по вашему запросу:")
 
-    for result in results:
-        title = result["product_title"]
-        price = result["product_price"] or "Unavailable"
-        link = result["product_url"]
+        for result in results:
+            title = result["product_title"]
+            price = result["product_price"] or "Unavailable"
+            link = result["product_url"]
+            await message.answer(
+                f"{html.bold(title)}\nPrice: {price}\n{html.link(link, link)}",
+                parse_mode=ParseMode.HTML,
+            )
+    else:
         await message.answer(
-            f"{html.bold(title)}\nPrice: {price}\n{html.link(link, link)}",
-            parse_mode=ParseMode.HTML,
+            "Результаты не найдены.\n"
+            "Попробуйте ввести другой запрос или задать другие параметры"
         )
     await state.clear()
