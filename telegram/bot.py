@@ -4,7 +4,7 @@ from aiogram.fsm.strategy import FSMStrategy
 
 from settings import config
 
-from .handlers import high, low
+from .handlers import custom, high, low
 
 
 async def start_bot():
@@ -15,6 +15,7 @@ async def start_bot():
     dp.include_routers(
         low.router,
         high.router,
+        custom.router,
     )
 
     await bot.delete_webhook(drop_pending_updates=True)
