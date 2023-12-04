@@ -41,30 +41,9 @@ class AmazonApi(ApiBase):
             params["max_price"] = max_price
 
         async with self.__session.get(url, params=params, headers=headers) as resp:
-            result: list[ProductData] = await resp.json()
+            resp_json = await resp.json()
+            result: list[ProductData] = resp_json["data"]["products"]
             return result
-
-    async def get_low_prices(self, query: str) -> list[ProductData]:
-        response = await self.get_prices(query, sort_by=SortOrder.LOWEST_PRICE)
-        return response
-
-    async def get_high_prices(self, query: str) -> list[ProductData]:
-        response = await self.get_prices(query, sort_by=SortOrder.HIGHEST_PRICE)
-        return response
-
-    async def get_custom_prices(
-        self,
-        query: str,
-        min_price: float,
-        max_price: float,
-    ) -> list[ProductData]:
-        response = await self.get_prices(
-            query,
-            sort_by=SortOrder.RELEVANCE,
-            min_price=min_price,
-            max_price=max_price,
-        )
-        return response
 
     async def destroy(self):
         await self.__session.close()

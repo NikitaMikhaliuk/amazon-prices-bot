@@ -23,22 +23,5 @@ class ApiBase(ABC):
         ...
 
     @abstractmethod
-    def get_low_prices(self, query: str) -> list[ProductData]:
-        ...
-
-    @abstractmethod
-    def get_high_prices(self, query: str) -> list[ProductData]:
-        ...
-
-    @abstractmethod
-    def get_custom_prices(
-        self,
-        query: str,
-        min_price: float,
-        max_price: float,
-    ) -> list[ProductData]:
-        ...
-
-    @abstractmethod
     def destroy(self):
         ...
