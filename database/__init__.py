@@ -1,3 +1,4 @@
+from . import crud  # noqa: F401
 from .core import (  # noqa: F401
     connect,
     create_tables,
