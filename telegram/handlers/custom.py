@@ -50,6 +50,8 @@ async def custom_command(message: Message, command: CommandObject, state: FSMCon
         try:
             await process_search_query(query, state)
             await process_view_limit(limit_str, state)
+            await process_min_price(min_price_str, state)
+            await process_max_price(max_price_str, state)
         except ValueError as exc:
             await message.answer(str(exc))
             return
@@ -66,53 +68,69 @@ async def input_search_query(message: Message, state: FSMContext):
     )
 
 
+async def process_min_price(min_price_str: str, state: FSMContext):
+    min_price_str = min_price_str.strip()
+
+    if min_price_str.isnumeric():
+        min_price = int(min_price_str.strip())
+
+        if min_price > 0:
+            query_params = await state.get_data()
+            query_params["min_price"] = min_price
+            await state.set_data(query_params)
+
+        else:
+            raise ValueError(
+                "Минимальная цена не может быть меньше 0. " "Попробуйте ввести снова"
+            )
+    else:
+        raise ValueError("Неверно указана минимальная цена. Попробуйте ввести снова")
+
+
 @router.message(StateFilter(SearchCustomPrices.input_min_price), F.text)
 async def input_min_price(message: Message, state: FSMContext):
     if message.text:
-        min_price_str = message.text.strip()
+        try:
+            await process_min_price(message.text, state)
+        except ValueError as exc:
+            await message.answer(str(exc))
+            return
 
-        if min_price_str.isnumeric():
-            min_price = int(min_price_str.strip())
+        await message.answer("Введите максимальную цену")
+        await state.set_state(SearchCustomPrices.input_max_price)
 
-            if min_price > 0:
-                query_params = await state.get_data()
-                query_params["min_price"] = min_price
-                await state.set_data(query_params)
-                await message.answer("Введите максимальную цену")
-                await state.set_state(SearchCustomPrices.input_max_price)
-            else:
-                await message.answer(
-                    "Минимальная цена не может быть меньше 0. "
-                    "Попробуйте ввести снова"
-                )
+
+async def process_max_price(max_price_str: str, state: FSMContext):
+    max_price_str = max_price_str.strip()
+
+    if max_price_str.isnumeric():
+        max_price = int(max_price_str.strip())
+
+        if max_price > 0:
+            query_params = await state.get_data()
+            query_params["max_price"] = max_price
+            await state.set_data(query_params)
+
         else:
-            await message.answer(
-                "Неверно указана минимальная цена. Попробуйте ввести снова"
+            raise ValueError(
+                "Максимальная цена не может быть меньше минимальной. "
+                "Попробуйте ввести снова"
             )
+    else:
+        raise ValueError("Неверно указана максимальной цена. Попробуйте ввести снова")
 
 
 @router.message(StateFilter(SearchCustomPrices.input_max_price), F.text)
 async def input_max_price(message: Message, state: FSMContext):
     if message.text:
-        query_params = await state.get_data()
-        max_price_str = message.text.strip()
-        if max_price_str.isnumeric():
-            max_price = int(max_price_str.strip())
+        try:
+            await process_max_price(message.text, state)
+        except ValueError as exc:
+            await message.answer(str(exc))
+            return
 
-            if max_price > query_params["min_price"]:
-                query_params["max_price"] = max_price
-                await state.set_data(query_params)
-                await message.answer("Введите кол-во отображаемых результатов")
-                await state.set_state(SearchCustomPrices.input_view_limit)
-            else:
-                await message.answer(
-                    "Максимальная цена не может быть меньше минимальной. "
-                    "Попробуйте ввести снова"
-                )
-        else:
-            await message.answer(
-                "Неверно указана максимальной цена. Попробуйте ввести снова"
-            )
+        await message.answer("Введите кол-во отображаемых результатов")
+        await state.set_state(SearchCustomPrices.input_view_limit)
 
 
 @router.message(StateFilter(SearchCustomPrices.input_view_limit), F.text)
