@@ -1,3 +1,4 @@
+import logging
 from typing import Optional
 
 import aiohttp
@@ -5,6 +6,9 @@ import aiohttp
 from enums import SortOrder
 
 from .base import ApiBase, ProductData
+
+
+logger = logging.getLogger(__name__)
 
 
 class AmazonApi(ApiBase):
@@ -44,6 +48,8 @@ class AmazonApi(ApiBase):
 
         if max_price is not None:
             params["max_price"] = max_price
+
+        logger.debug(f"Making request to /search endpoint with params: {params}")
 
         session = await self.__getSession()
         async with session.get(url, params=params, headers=headers) as resp:

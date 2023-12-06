@@ -1,8 +1,8 @@
-from .amazon_api import AmazonApi
-from .mock_api import MockApi
-
 from enums import PyEnv
 from settings import config
+
+from .amazon_api import AmazonApi
+from .mock_api import MockApi
 
 
 if config.py_env == PyEnv.PRODUCTION:
