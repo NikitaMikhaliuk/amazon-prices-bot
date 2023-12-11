@@ -59,7 +59,7 @@ async def start_command(message: Message):
                 Bold("Amazon"),
                 ".\nВыберите режим запроса в меню, или введите ",
                 f"{Commands.PREFIX}{Commands.HELP} ",
-                "для получения описания всех комманд бота",
+                "для получения описания всех команд бота",
             ).as_html(),
             parse_mode=ParseMode.HTML,
         )
@@ -98,7 +98,7 @@ async def help_command(message: Message):
             Italic("кол-во отображаемых результатов"),
         ),
         Text(
-            "Для комманд ",
+            "Для команд ",
             f"{Commands.PREFIX}{Commands.LOW}, ",
             f"{Commands.PREFIX}{Commands.HIGH} ",
             f"и {Commands.PREFIX}{Commands.CUSTOM}, ",
