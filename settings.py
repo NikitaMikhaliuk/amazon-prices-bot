@@ -5,8 +5,9 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 class Settings(BaseSettings):
     bot_token: SecretStr = Field(default=...)
     api_host: str = Field(default=...)
-    api_key: str = Field(default=...)
-    py_env: str = Field(default="PRODUCTION")
+    api_key: SecretStr = Field(default=...)
+    py_env: str = Field(default="DEV")
+    log_level: str = Field(default="INFO")
     database: str = Field(default="database.db")
 
     model_config = SettingsConfigDict(
