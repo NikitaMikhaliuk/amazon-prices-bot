@@ -5,7 +5,7 @@ from aiogram.enums import ParseMode
 from aiogram.filters import CommandObject
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State
-from aiogram.types import Message
+from aiogram.types import Message, URLInputFile
 from aiogram.utils.formatting import Text
 
 import database as db
@@ -147,8 +147,11 @@ async def process_query(message: Message, state: FSMContext):
             title = result["product_title"]
             price = result["product_price"] or "Unavailable"
             link = result["product_url"]
-            await message.answer(
-                f"{html.bold(title)}\nPrice: {price}\n{html.link(link, link)}",
+            photo_url = result["product_photo"]
+            photo = URLInputFile(photo_url)
+            await message.answer_photo(
+                photo,
+                caption=f"{html.bold(title)}\nPrice: {price}\n{html.link(link, link)}",
                 parse_mode=ParseMode.HTML,
             )
     else:
