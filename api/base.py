@@ -8,6 +8,7 @@ class ProductData(TypedDict):
     product_title: str
     product_price: Optional[str]
     product_url: str
+    product_photo: str
 
 
 class ApiBase(ABC):
