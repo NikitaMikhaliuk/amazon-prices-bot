@@ -64,7 +64,7 @@ async def input_search_query(message: Message, state: FSMContext):
         message,
         state,
         next_state=SearchCustomPrices.input_min_price,
-        next_state_message=Text("Введите минимальную цену"),
+        next_state_message=Text("Enter minimum price"),
     )
 
 
@@ -80,11 +80,9 @@ async def process_min_price(min_price_str: str, state: FSMContext):
             await state.set_data(query_params)
 
         else:
-            raise ValueError(
-                "Минимальная цена не может быть меньше 0. " "Попробуйте ввести снова"
-            )
+            raise ValueError("Minimum price can't be below 0. Please try again")
     else:
-        raise ValueError("Неверно указана минимальная цена. Попробуйте ввести снова")
+        raise ValueError("Incorrect minimum price. Please try again")
 
 
 @router.message(StateFilter(SearchCustomPrices.input_min_price), F.text)
@@ -96,7 +94,7 @@ async def input_min_price(message: Message, state: FSMContext):
             await message.answer(str(exc))
             return
 
-        await message.answer("Введите максимальную цену")
+        await message.answer("Enter maximum price")
         await state.set_state(SearchCustomPrices.input_max_price)
 
 
@@ -113,11 +111,10 @@ async def process_max_price(max_price_str: str, state: FSMContext):
 
         else:
             raise ValueError(
-                "Максимальная цена не может быть меньше минимальной. "
-                "Попробуйте ввести снова"
+                "Maximum price can't be lower than minimum price. Please try again"
             )
     else:
-        raise ValueError("Неверно указана максимальной цена. Попробуйте ввести снова")
+        raise ValueError("Incorrect maximum price. Please try again")
 
 
 @router.message(StateFilter(SearchCustomPrices.input_max_price), F.text)
@@ -129,7 +126,7 @@ async def input_max_price(message: Message, state: FSMContext):
             await message.answer(str(exc))
             return
 
-        await message.answer("Введите кол-во отображаемых результатов")
+        await message.answer("Enter search results display limit")
         await state.set_state(SearchCustomPrices.input_view_limit)
 
 

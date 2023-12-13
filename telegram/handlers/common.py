@@ -23,13 +23,13 @@ async def process_command_args(
     query_params: dict[str, Any] = {"command": command.command}
     await state.set_data(query_params)
     if command.args is None:
-        await message.answer("Введите товар для поиска")
+        await message.answer("Please enter a product to search")
         await state.set_state(next_state)
         return False
     else:
         args = command.args.rsplit(" ", maxsplit=args_len - 1)
         if len(args) < args_len or args[0] == "":
-            raise ValueError("Некорректный формат запроса. Повторите команду")
+            raise ValueError("Incorrect format. Please try again")
         else:
             return True
 
@@ -91,14 +91,12 @@ async def process_view_limit(limit_str: str, state: FSMContext):
             await state.set_data(query_params)
         else:
             raise ValueError(
-                "Кол-во отображаемых результатов должно находиться в пределах"
-                f" от {ViewLimit.MIN.value} до {ViewLimit.MAX.value}. "
-                "Попробуйте ввести снова"
+                "Search results display limit should be in range"
+                f" from {ViewLimit.MIN.value} to {ViewLimit.MAX.value}. "
+                "Please try again"
             )
     else:
-        raise ValueError(
-            "Неверно указано кол-во отображаемых результатов. Попробуйте ввести снова"
-        )
+        raise ValueError("Search results display limit is incorrect. Please try again")
 
 
 async def process_view_limit_input(message: Message, state: FSMContext):
@@ -124,7 +122,7 @@ async def process_query(message: Message, state: FSMContext):
             user=user,
         )
 
-    await message.answer("Выполняю запрос...")
+    await message.answer("Searching product...")
     match query_params["command"]:
         case Commands.LOW:
             sort_by = SortOrder.LOWEST_PRICE
@@ -141,7 +139,7 @@ async def process_query(message: Message, state: FSMContext):
     if results:
         limit = query_params["limit"]
         results = results[:limit]
-        await message.answer("Результаты по вашему запросу:")
+        await message.answer("Search results:")
 
         for result in results:
             title = result["product_title"]
@@ -156,7 +154,6 @@ async def process_query(message: Message, state: FSMContext):
             )
     else:
         await message.answer(
-            "Результаты не найдены.\n"
-            "Попробуйте ввести другой запрос или задать другие параметры"
+            "Results are not found.\n" "Please try different query of params"
         )
     await state.clear()
