@@ -19,9 +19,9 @@ LOG_LEVEL="DEBUG"
 ### Bot's commands
 #### Bot can run the following commands:
 
-__/low__ - searches the prouct with the lowest price. Required params: *product to search, search results display limit*
+__/low__ - searches the product with the lowest price. Required params: *product to search, search results display limit*
 
-__/high__ - searches the prouct with the highest price. Required params: *product to search, search results display limit*
+__/high__ - searches the product with the highest price. Required params: *product to search, search results display limit*
 
 __/custom__ - searches the product within specified prices range. Required params: *product to search, minimum price, maximum price, search results display limit*
 
