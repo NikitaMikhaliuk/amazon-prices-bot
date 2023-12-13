@@ -13,6 +13,8 @@ class Commands(StrEnum):
     LOW = "low"
     HIGH = "high"
     CUSTOM = "custom"
+    HISTORY = "history"
+    CANCEL = "cancel"
 
 
 class SortOrder(StrEnum):
