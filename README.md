@@ -1,33 +1,35 @@
 ## Amazon Prices Bot
-### Что может этот бот?
-Этот бот помогает искать товары на площадке Amazon, используя промежуточное API: [Real-Time Amazon Data](https://rapidapi.com/letscrape-6bRBa3QguO5/api/real-time-amazon-data)
+### What this bot can do?
+This bot helps to find products on Amazon, using a third-party API: [Real-Time Amazon Data](https://rapidapi.com/letscrape-6bRBa3QguO5/api/real-time-amazon-data)
 
 ### Установка
-- Скопируйте репозиторий с помощью `git clone` или вашей среды разработки, затем, в корневой папке сойздайте и активируйте вирутальное окрущение __Python 3.11__, и запустите `pip install -r requirements.txt` для установки зависимостей
-- Создайте в корнейой папке проекта файл `.env` следующего вида:
+- Clone this repo using `git clone` or your IDE
+- Create and acivate __Python 3.11__ virtual environment in the project's folder
+- Run `pip install -r requirements.txt` to instal project's dependencies
+- In project's root folder, create a `.env` file  that should look like this:
 ```
-BOT_TOKEN="<ваш токен бота>"
+BOT_TOKEN="<your telegram bot token>"
 API_HOST="real-time-amazon-data.p.rapidapi.com"
-API_KEY="<ваш ключ API>"
+API_KEY="<your API key>"
 PY_ENV="PRODUCTION"
 LOG_LEVEL="DEBUG"
 ```
-- Для старта бота, в активированном виртуальном окружении запустите команду `python main.py` в корневой папке проекта
+- To start the bot, run `python main.py` in activated virtual env
 
-### Команды бота
-#### Бот может выполнять следующие команды:
+### Bot's commands
+#### Bot can run the following commands:
 
-__/low__ - поиск товара по наиболее низкой цене. Запрашиваемые параметры: *товар для поиска, кол-во отображаемых результатов*
+__/low__ - searches the prouct with the lowest price. Required params: *product to search, search results display limit*
 
-__/high__ - поиск товара по наиболее высокой цене. Запрашиваемые параметры: *товар для поиска, кол-во отображаемых результатов*
+__/high__ - searches the prouct with the highest price. Required params: *product to search, search results display limit*
 
-__/custom__ - поиск товара с указанием ценового диапазона поиска. Запрашиваемые параметры: *товар для поиска, минимальная цена, максимальная цена, кол-во отображаемых результатов*
+__/custom__ - searches the product within specified prices range. Required params: *product to search, minimum price, maximum price, search results display limit*
 
-Для команд __/low__, __/high__ и __/custom__, помимо стандартного диалога запроса, доступен формат однострочного запроса с указанием параметров через пробел. Пример:
-__/custom__ *товар мин_цена макс_цена лимит*
+For __/low__, __/high__ and __/custom__ commands, instead of using usual dialog, you can also inline all the params with the command like this:
+__/custom__ *product min_price max_price limit*
 
-__/cancel__ - отменяет текущий диалог запроса
+__/cancel__ - cancels current search dialog
 
-__/history__ - выводит ваши последние 5 запросов с указанными параметрами
+__/history__ - shows your last 5 search requests with the parameters inlined
 
-__/help__ - описание всех команд бота
+__/help__ - shows bot's commands description

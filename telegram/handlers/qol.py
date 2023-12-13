@@ -24,22 +24,22 @@ async def history_command(message: Message):
         history = db.get_user_last_queries(message.from_user.id)
 
         if history:
-            await message.answer("Ваши последние запросы:")
+            await message.answer("Your last queries:")
             for entry in history:
                 await message.answer(entry.query)
         else:
-            await message.answer("Ваша история запросов пуста")
+            await message.answer("Your search history is empty")
 
 
 @router.message(StateFilter(None), Command(Commands.CANCEL))
 async def cancel_command_no_qctive_query(message: Message):
-    await message.answer("Активный запрос не найден")
+    await message.answer("Active search dialog is not found")
 
 
 @router.message(Command(Commands.CANCEL))
 async def cancel_command(message: Message, state: FSMContext):
     await state.clear()
-    await message.answer("Запрос отменён")
+    await message.answer("Search dialog is canceled")
 
 
 @router.message(Command(Commands.START))
@@ -53,13 +53,13 @@ async def start_command(message: Message):
 
         await message.answer(
             Text(
-                "Добро пожаловать, ",
+                "Welcome, ",
                 TextLink(tg_user.first_name, url=tg_user.url),
-                "\nЭтот бот поможет вам найти товары на площадке ",
+                "\nThis bot helps to search products on ",
                 Bold("Amazon"),
-                ".\nВыберите режим запроса в меню, или введите ",
+                ".\nChoose a search command in the menu, or run ",
                 f"{Commands.PREFIX}{Commands.HELP} ",
-                "для получения описания всех команд бота",
+                "to get all bot's commands description",
             ).as_html(),
             parse_mode=ParseMode.HTML,
         )
@@ -68,51 +68,49 @@ async def start_command(message: Message):
 @router.message(Command(Commands.HELP))
 async def help_command(message: Message):
     descriptions = (
-        Text(Bold("Бот может выполнять следующие команды:")),
+        Text(Bold("Bot can run the following commands:")),
         Text(
             f"{Commands.PREFIX}{Commands.LOW}",
-            " - поиск товара по наиболее низкой цене\n",
-            "Запрашиваемые параметры:\n",
-            Italic("товар для поиска"),
+            " - searches the prouct with the lowest price\n",
+            "Required params:\n",
+            Italic("product to search"),
             ", ",
-            Italic("кол-во отображаемых результатов"),
+            Italic("search results display limit"),
         ),
         Text(
             f"{Commands.PREFIX}{Commands.HIGH}",
-            " - поиск товара по наиболее высокой цене\n",
-            "Запрашиваемые параметры:\n",
-            Italic("товар для поиска"),
+            " - searches the prouct with the highest price\n",
+            "Required params:\n",
+            Italic("product to search"),
             ", ",
-            Italic("кол-во отображаемых результатов"),
+            Italic("search results display limit"),
         ),
         Text(
             f"{Commands.PREFIX}{Commands.CUSTOM}",
-            " - поиск товара с указанием ценового диапазона поиска\n",
-            "Запрашиваемые параметры:\n",
-            Italic("товар для поиска"),
+            " - searches the product within specified prices range\n",
+            "Required params:\n",
+            Italic("product to search"),
             ", ",
-            Italic("минимальная цена"),
+            Italic("minimum price"),
             ", ",
-            Italic("максимальная цена"),
+            Italic("maximum price"),
             ", ",
-            Italic("кол-во отображаемых результатов"),
+            Italic("search results display limit"),
         ),
         Text(
-            "Для команд ",
-            f"{Commands.PREFIX}{Commands.LOW}, ",
+            f"For {Commands.PREFIX}{Commands.LOW}, ",
             f"{Commands.PREFIX}{Commands.HIGH} ",
-            f"и {Commands.PREFIX}{Commands.CUSTOM}, ",
-            "помимо стандартного диалога запроса, ",
-            "доступен формат однострочного запроса ",
-            "с указанием параметров через пробел. Пример:\n",
-            "/custom товар мин_цена макс_цена лимит",
+            f"и {Commands.PREFIX}{Commands.CUSTOM} commands, ",
+            "instead of using usual dialog, ",
+            "you can also inline all the params with the command like this:\n",
+            "/custom product min_price max_price limit",
         ),
-        Text(f"{Commands.PREFIX}{Commands.CANCEL} - отменяет текущий диалог запроса"),
+        Text(f"{Commands.PREFIX}{Commands.CANCEL} - cancels current search dialog"),
         Text(
             f"{Commands.PREFIX}{Commands.HISTORY}",
-            " - выводит ваши последние 5 запросов с указанными параметрами",
+            " - shows your last 5 search requests with the parameters inlined",
         ),
-        Text(f"{Commands.PREFIX}{Commands.HELP} - описание всех команд бота"),
+        Text(f"{Commands.PREFIX}{Commands.HELP} - shows bot's commands description"),
     )
 
     await message.answer(

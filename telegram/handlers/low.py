@@ -35,7 +35,7 @@ async def input_query(message: Message, state: FSMContext):
         message,
         state,
         next_state=SearchLowPrices.input_view_limit,
-        next_state_message=Text("Введите кол-во отображаемых результатов"),
+        next_state_message=Text("Enter search results display limit"),
     )
 
 
